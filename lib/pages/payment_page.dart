@@ -1,6 +1,6 @@
-import 'package:drink_app1/components/my_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
+import 'package:food_app/components/my_button.dart';
 
 import 'delivery_progress_page.dart';
 
@@ -18,7 +18,6 @@ class _PaymentPageState extends State<PaymentPage> {
   String cardHolderName = "";
   String cvvCode = "";
   bool isCvvFocused = false;
-
   //nguoi dung muon thanh toan
   void userTappedPay() {
     if (formKey.currentState!.validate()) {
@@ -62,7 +61,6 @@ class _PaymentPageState extends State<PaymentPage> {
       );
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,11 +68,11 @@ class _PaymentPageState extends State<PaymentPage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         foregroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text("Thanh toán"),
+        title: const Text("Thanh Toán"),
       ),
       body: Column(
         children: [
-          //thanh toan visa
+          //credit card
           CreditCardWidget(
             cardNumber: cardNumber,
             expiryDate: expiryDate,
@@ -83,7 +81,6 @@ class _PaymentPageState extends State<PaymentPage> {
             showBackView: isCvvFocused,
             onCreditCardWidgetChange: (p0) {},
           ),
-
           //form thanh toan
           CreditCardForm(
             cardNumber: cardNumber,
@@ -100,16 +97,12 @@ class _PaymentPageState extends State<PaymentPage> {
             },
             formKey: formKey,
           ),
-
           const Spacer(),
-
+          //button thanh toan
           MyButton(
             onTap: userTappedPay,
-            // Thực hiện hành động khi nút được nhấn
-
             text: "Thanh toán ngay",
           ),
-
           const SizedBox(height: 25),
         ],
       ),

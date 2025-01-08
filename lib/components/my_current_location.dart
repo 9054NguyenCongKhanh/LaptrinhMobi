@@ -1,25 +1,39 @@
+import 'package:drink_app1/models/restaurant.dart';
 import 'package:flutter/material.dart';
+import 'package:food_app/models/restaurant.dart';
+import 'package:provider/provider.dart';
 
 class MyCurrentLocation extends StatelessWidget {
-  const MyCurrentLocation({super.key});
-
+  MyCurrentLocation({super.key});
+  final textController = TextEditingController();
   void openLocationSearchBox(BuildContext context) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
+        backgroundColor: Theme.of(context).colorScheme.surface,
         title: const Text("Vị trí của bạn"),
-        content: const TextField(
-          decoration: InputDecoration(hintText: "Tìm vị trí.."),
+        content: TextField(
+          controller: textController,
+          decoration: const InputDecoration(hintText: "Thêm vị trí.."),
         ),
         actions: [
           //cancel button
           MaterialButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () {
+              Navigator.pop(context);
+              textController.clear();
+            },
             child: const Text('Hủy'),
           ),
           //save button
           MaterialButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () {
+              //button luu vi tri
+              String newAddress = textController.text;
+              context.read<Restaurant>().updateDeliveryAddress(newAddress);
+              Navigator.pop(context);
+              textController.clear();
+            },
             child: const Text('Lưu'),
           ),
         ],
@@ -43,15 +57,20 @@ class MyCurrentLocation extends StatelessWidget {
             child: Row(
               children: [
                 //dia chi
-                Text(
-                  "69/1 tang nhon phu a",
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.inversePrimary,
-                    fontWeight: FontWeight.bold,
+                Consumer<Restaurant>(
+                  builder: (context, restaurant, child) => Text(
+                    restaurant.deliveryAddress,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.inversePrimary,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 //drop down menu
-                Icon(Icons.keyboard_arrow_down_rounded),
+                Icon(
+                  Icons.keyboard_arrow_down_rounded,
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                ),
               ],
             ),
           )
